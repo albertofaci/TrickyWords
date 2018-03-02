@@ -32,17 +32,20 @@
     <script src='voicerss-tts.min.js'></script>
 	<script language="Javascript">
 		window.onload = function() {
-			var wordList = ['a', 'am', 'and', 'are', 'at', 'away', 'big', 'blue', 'boat', 'boy', 'boys', 
-							'but', 'can',  'come', 'comes', 'cookie', 'did', 'do', 'down', 'eat', 'father',
-							'find', 'for', 'fun', 'funny', 'get', 'girl', 'go', 'good', 'grandmother', 
-							'guess', 'has', 'have', 'help', 'here',  'his', 'house', 'how', 'I', 'in', 
-							'into', 'is', 'it', 'jump', 'like', 'little', 'look', 'looks', 'make', 'makes',
-							'man', 'me', 'mother', 'my', 'no', 'not', 'now', 'oh', 'on', 'one', 
-							'ones', 'orange', 'out', 'play', 'pretty', 'red', 'ride', 'run', 'said', 'school',
-							'see', 'sit', 'snow', 'so', 'something', 'spot', 'take', 'that', 'the', 'thing', 
-							'this', 'to', 'too', 'up', 'us', 'walk', 'want', 'wants', 'way', 'we', 'what',
-							'where', 'will', 'with', 'work', 'yellow', 'yes', 'you' ];
-			
+
+
+			var wordList = [ ];
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+			    if (this.readyState == 4 && this.status == 200) {
+			       alert(xhttp.responseText);
+			       wordList = JSON.parse(xhttp.responseText).words
+			    }
+			};
+			xhttp.open("GET", "https://xwwj7wafn7.execute-api.eu-west-2.amazonaws.com/prod/words", true);
+			xhttp.send();
+
 			
 			var wordIndex = 0;
 			var words;
@@ -87,8 +90,6 @@
 			function end() {
 				alert("Bravo!");
 			}
-
-			var audio
 
 			function say() {
 				/*VoiceRSS.speech({
