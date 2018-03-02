@@ -1,0 +1,40 @@
+<head>
+    <title></title>
+    <meta charset='utf-8' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='voicerss-tts.min.js'></script>
+</head>
+<body>
+    <script>
+        $(document).ready(function(){
+            $("li").click(function(){
+                //alert($(this).text());
+
+               VoiceRSS.speech({
+                    key: 'c7390581f1e84a388be14b8cdf507a8f',
+                    src: $(this).text(),
+                    hl: 'en-gb',
+                    r: -2, 
+                    c: 'mp3',
+                    f: '44khz_16bit_stereo',
+                    ssml: false
+                });
+            });
+        });
+        </script>
+
+
+    
+    </script>
+
+
+    <ul>
+        <li>Thought</li>
+        <li>Behind</li>
+        <li>Something</li>
+        <li>Parking-meter</li>
+
+    </ul>
+
+</body>
+</html>
