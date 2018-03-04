@@ -30,7 +30,7 @@
 			var progressWaitInMillis = 3000;
 
 
-			$.getJSON("https://xwwj7wafn7.execute-api.eu-west-2.amazonaws.com/prod/words", function(data) {
+			$.getJSON("sandro.json", function(data) {
 					wordList = data.words
 					$("#start").click(start)
 			});
