@@ -1,40 +1,125 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+
+<!-- This is based on some code if found and modified. Unfortunately I cannot find the link again -->
+
+<html lang="en">
 <head>
-    <title></title>
-    <meta charset='utf-8' />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src='voicerss-tts.min.js'></script>
+	<title>Sandro's Tricky Words</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
+	<script
+		  src="https://code.jquery.com/jquery-3.3.1.min.js"
+		  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		  crossorigin="anonymous"></script>
+	<style type="text/css" media="screen">
+        body { background-color: #ffdddd; color: #333333; font-family: 'Bitter', serif; }
+        #controls { width: 900px; margin: 0px auto; height: 40px; }
+        #card_container { font-size:100pt; text-align: center; padding: 150px 0px; font-weight:bold	;}
+        #start { font-size:100pt; text-align: center; padding: 150px 0px; font-weight: bold	;}
+        #end { font-size:100pt; text-align: center; padding: 150px 0px; font-weight: bold	;}
+        #counter_container {  width: 30px; font-style: bold; font-size: 50pt; color: #333; }
+        #counter { float: left;}
+	</style>
+	<script language="Javascript">
+
+	$( document ).ready(function() {
+			var wordList = [ ];
+			var progressWaitInMillis = 3000;
+
+
+			$.getJSON("https://xwwj7wafn7.execute-api.eu-west-2.amazonaws.com/prod/words", function(data) {
+					wordList = data.words
+					$("#start").click(start)
+			});
+
+			
+			var wordIndex = 0;
+			var words;
+			var timer = null;
+			var startTime = 0;
+			var wordTime = 0;
+
+			function each(a,f) { for (var i=0,l=a.length;i<l;i++) f(a[i]); }
+
+			var start = function() {
+				$('#card_container').html('<span id="card"></span>');
+				$('#card').click(reveal)
+			
+				words = [];
+				each(wordList, function(word) { words.push(word); });
+				for ( var i=0,l=words.length; i < l; i++ ) {
+					var sindex = Math.floor(Math.random()*l);
+					var temp = words[sindex];
+					words[sindex] = words[i];
+					words[i] = temp;
+				}
+				wordIndex = -1;
+				nextWord();
+			}
+		
+			
+			function nextWord() {
+				wordIndex++
+				var currentCounter = ''+(words.length - wordIndex)
+				$('#counter').text(currentCounter);
+				if ( wordIndex >= words.length ) {
+					end();
+					return;					
+				}
+				$('#card').text(words[wordIndex]);
+				
+			}
+			
+			function end() {
+				$('#card_container').html('<span id="end">The End!</span>');
+			}
+
+			function sayWord() {
+				$("#sound").html("<audio src=http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl=en-gb&r=-2&f=44khz_16bit_stereo&ssml=false&src="+words[wordIndex]+" autoplay='autoplay'></audio>")
+			}
+
+			var progress = function() {
+				setTimeout(function() { 
+					$('#card').css('color', "#333333")
+					$('#counter').css('color', "#333333")
+					$('#spinner').html('')
+					$('#card').bind('click', reveal)
+					nextWord();
+				}, progressWaitInMillis);
+			}
+
+			var reveal = function( evt ) {
+				$('#card').unbind('click', reveal);
+				sayWord();	
+								
+				$('#card').css('color', "#ff6633")
+				$('#counter').css('color', "#ff6633")
+				$('#spinner').html('<img src="spinner2.gif"/>');
+				progress()
+			}
+			
+			
+			
+		});
+		
+	</script>
 </head>
 <body>
-    <script>
-        $(document).ready(function(){
-            $("li").click(function(){
-                //alert($(this).text());
+<div id="controls">
+	<span id="counter_container">
+		<span id="counter"></span>
+		<span id="spinner"></span>
+	</span>
 
-               VoiceRSS.speech({
-                    key: 'c7390581f1e84a388be14b8cdf507a8f',
-                    src: $(this).text(),
-                    hl: 'en-gb',
-                    r: -2, 
-                    c: 'mp3',
-                    f: '44khz_16bit_stereo',
-                    ssml: false
-                });
-            });
-        });
-        </script>
+</div>
+<div id="card_container">
+		<span id="start">start...</span>
+</div>
+<div id="sound"></div>
 
-
-    
-    </script>
-
-
-    <ul>
-        <li>Thought</li>
-        <li>Behind</li>
-        <li>Something</li>
-        <li>Parking-meter</li>
-
-    </ul>
 
 </body>
 </html>
