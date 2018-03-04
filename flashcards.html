@@ -4,32 +4,22 @@
 
 <html lang="en">
 <head>
-  <!--
-  Copyright (c) 2010, Alex Cruikshank
-  All rights reserved.
-
-  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-  Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-  Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-  Neither the name of Alex Cruikshank nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-    -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
 	<title>Finley's Reading Club Flash Cards</title>
 	<style type="text/css" media="screen">
-        body { background-color: #f9f9f8; font-family:"Trebuchet MS", Helvetica, sans-serif }
-        #controls { width: 900px; margin: 0px auto; }
+        body { background-color: #ffdddd; color: #333333; font-family: 'Bitter', serif; }
+        #controls { width: 900px; margin: 0px auto; height: 40px; }
         button { border: 1px solid #999; display: block; float: left; margin-right: 20px; height: 40px; width: 60px; background-color: #f9f9f9; font-size: 12pt; color: #666; }
         button:hover { color: #000; border: 1px solid #000; background-color: #f9f9f0; }
-        #card { font-size:100pt; text-align: center; padding: 150px 0px; 	;}
-        #start { font-size: 70%;  }
+        #card_container { font-size:100pt; text-align: center; padding: 150px 0px; font-weight: bold	;}
+        #start { font-size:100pt; text-align: center; padding: 150px 0px; font-weight: bold	;}
         label { display: block; float: left; width: 150px; text-align: right; padding-right: 10px; color: #999; }
         #instructions { color: #bbb; font-size:10pt; text-align:center; visibility:hidden; display:block; float:none; width:300px; margin:0px auto; }
-        span { display: block; float: left; width: 100px; font-style: bold; font-size: 20pt; color: #000; }
+        #counter_container {  width: 30px; font-style: bold; font-size: 50pt; color: #333; }
+        #counter { float: left;}
         div.comment { font-size: 30px; }
 	</style>
-    <script src='voicerss-tts.min.js'></script>
 	<script language="Javascript">
 		window.onload = function() {
 
@@ -39,7 +29,6 @@
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 			    if (this.readyState == 4 && this.status == 200) {
-			       alert(xhttp.responseText);
 			       wordList = JSON.parse(xhttp.responseText).words
 			    }
 			};
@@ -57,10 +46,9 @@
 			function el(id) { return document.getElementById(id); }
 
 			function start( evt ) {
-				el('start').blur();
-				el('start').style.visibility = 'hidden';
-				el('instructions').style.visibility = 'visible';
-
+				el('card_container').innerHTML = '<span id="card"></span>';
+				el('card').onclick = handler
+			
 				words = [];
 				each(wordList, function(word) { words.push(word); });
 				for ( var i=0,l=words.length; i < l; i++ ) {
@@ -69,20 +57,20 @@
 					words[sindex] = words[i];
 					words[i] = temp;
 				}
-				wordIndex = 0;
+				wordIndex = -1;
 				nextWord();
 			}
 		
 			
 			function nextWord() {
+				wordIndex++
 				el('counter').innerHTML = ''+(words.length - wordIndex);
 				if ( wordIndex >= words.length ) {
 					end();
 					return;					
 				}
 				el('card').innerHTML = words[wordIndex];
-				el("sound").innerHTML = "<audio src=http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl=en-gb&r=-2&f=44khz_16bit_stereo&ssml=false&src="+words[wordIndex]+"></audio>"
-				wordIndex++
+				
 			}
 
 			
@@ -92,55 +80,56 @@
 			}
 
 			function say() {
-				/*VoiceRSS.speech({
-                    key: 'c7390581f1e84a388be14b8cdf507a8f',
-                    src: words[wordIndex-1],
-                    hl: 'en-gb',
-                    r: -2, 
-                    c: 'mp3',
-                    f: '44khz_16bit_stereo',
-                    ssml: false
-                });*/
-				el("sound").innerHTML = "<audio src=http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl=en-gb&r=-2&f=44khz_16bit_stereo&ssml=false&src="+words[wordIndex-1]+" autoplay='autoplay'></audio>"
+				el("sound").innerHTML = "<audio src=http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl=en-gb&r=-2&f=44khz_16bit_stereo&ssml=false&src="+words[wordIndex]+" autoplay='autoplay'></audio>"
 
-				"http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl=en-us&src=Hello"
 			}
 
-			function setColor(color) {
-				el('card').style.color = color;
+			function setColor(elem, color) {
+				el(elem).style.color = color;
 			}
 			
-			el('start').onclick = start;
+			
 
 			var handler = function( evt ) {
 				if (!evt) 
 					var evt = window.event;
 				el('card').onclick = null
-				//say();	
+				say();	
 								
 
-				setColor("red")
+				setColor('card', "#ff6633")
+				setColor('counter', "#ff6633")
+				el('spinner').innerHTML = '<img src="spinner2.gif"/>'
 				setTimeout(function() { 
-					setColor("black")
+					setColor('card', "#333333")
+					setColor('counter', "#333333")
+					
+					el('spinner').innerHTML = ""
 					el('card').onclick = handler
 					nextWord();
-				}, 2000);		
+				}, 3000);		
 			}
 			
-			el('card').onclick = handler
+			
+			el('start').onclick = start;
 
-			el('back').onclick = function() {  previousWord() }
+			//el('back').onclick = function() {  previousWord() }
 		}
 	</script>
 </head>
 <body>
 <div id="controls">
 
-	<label for="counter"></label>
-	<span id="counter"></span>
+	
+	<span id="counter_container">
+		<label for="counter"></label>
+		<span id="counter"></span>
+		<span id="spinner"></span>
+	</span>
+
 </div>
-<div id="card">
-	<a id="start">start...</a>
+<div id="card_container">
+		<span id="start">start...</span>
 </div>
 <div id="sound"></div>
 <label for="card" id="instructions"></label>
