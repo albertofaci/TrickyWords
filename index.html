@@ -98,7 +98,7 @@
 			}
 
 			function sayWord() {
-				$("#sound").html("<audio src=http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl=en-gb&r=-2&f=44khz_16bit_stereo&ssml=false&src="+words[wordIndex]+" autoplay='autoplay'></audio>")
+				$("#sound").html("<audio src=http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl=en-gb&r=-2&f=44khz_16bit_stereo&ssml=false&src="+encodeURI(words[wordIndex])+" autoplay='autoplay'></audio>")
 			}
 
 			var progress = function() {
