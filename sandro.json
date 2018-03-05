@@ -1,18 +1,31 @@
-{ "words" : [
-	"behind", 
-	"thought", 
-	"slide", 
-	"excited", 
-	"temperature", 
-	"medicine", 
-	"worse", 
-	"infection", 
-	"laugh",
-	"python",
-	"poisonous",
-	"to inject",
-	"victim",
-	"lizard",
-	"antidote",
-	"roadrunner"
-]}
+{ 
+	"words" : { 
+		"current" : [
+			"behind", 
+			"thought", 
+			"slide", 
+			"excited", 
+			"temperature", 
+			"medicine", 
+			"worse", 
+			"infection", 
+			"laugh",
+			"python",
+			"poisonous",
+			"to inject",
+			"victim",
+			"lizard",
+			"antidote",
+			"roadrunner"
+		],
+		"historic" : [
+	       "ache",
+	       "nurse",
+	       "ear",
+	       "to lie",
+	       "ear drops",
+	       "fantastic",
+	       "laugh"
+		]
+	}
+}

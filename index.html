@@ -51,7 +51,11 @@
 
 
 			$.getJSON("sandro.json", function(data) {
-					wordList = data.words
+					wordList = wordList.concat(data.words.current)
+					var rand  = pickRandom(5, data.words.historic)
+					wordList = wordList.concat(rand)
+					alert(rand)
+
 					$("#start").click(start)
 			});
 
@@ -78,6 +82,17 @@
 				}
 				wordIndex = -1;
 				nextWord();
+			}
+
+			function pickRandom(num, array) {
+				var randomWords = []
+				for(var i = 0; i < num; i++) {
+					var pos = Math.floor(Math.random()*array.length)
+					var word = array[pos]
+					randomWords.push(word)
+					array.splice(pos, 1)
+				}
+				return randomWords;
 			}
 		
 			
