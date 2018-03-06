@@ -31,20 +31,52 @@
         #counter_container {  width: 30px;  font-size: 50pt; color: #333; }
         #counter { float: left;}
         
+        .blink_text { animation:1s blinker linear infinite; -webkit-animation:1s blinker linear infinite; -moz-animation:1s blinker linear infinite;
+    	}
+
+	    @-moz-keyframes blinker {  0% { opacity: 1.0; } 50% { opacity: 0.0; } 100% { opacity: 1.0; }}
+	    @-webkit-keyframes blinker {  0% { opacity: 1.0; }  50% { opacity: 0.0; } 100% { opacity: 1.0; }}
+	    @keyframes blinker {  0% { opacity: 1.0; }50% { opacity: 0.0; }100% { opacity: 1.0; }}
+        
 	</style>
 	<script language="Javascript">
+
+	var urlParams;
+	var locale;
+	var speed;
+	var style;
+
+
+
+	(window.onpopstate = function () {
+	    var match,
+	        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+	        search = /([^&=]+)=?([^&]*)/g,
+	        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+	        query  = window.location.search.substring(1);
+
+	    urlParams = {};
+	    while (match = search.exec(query)) {
+	       urlParams[decode(match[1])] = decode(match[2]);
+	   }
+	})();
 
 	$( document ).ready(function() {
 			var wordList = [ ];
 			var progressWaitInMillis = 3000;
 
+			var lang = urlParams["lang"] || "en"
 
-			$.getJSON("sandro.json", function(data) {
+			$.getJSON("sandro."+lang+".json", function(data, err) {
 					wordList = wordList.concat(data.words.current)
 					var rand  = pickRandom(5, data.words.historic)
 					wordList = wordList.concat(rand)
-
+					locale = data.locale
+					speed = data.speed
+					style = data.style
 					$("#start").click(start)
+
+					$('body').css('background-color', style["background-color"])
 			});
 
 			
@@ -101,14 +133,14 @@
 			}
 
 			function sayWord() {
-				$("#sound").html("<audio src=http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl=en-gb&r=-2&f=44khz_16bit_stereo&ssml=false&src="+encodeURI(words[wordIndex])+" autoplay='autoplay'></audio>")
+				$("#sound").html("<audio src=http://api.voicerss.org/?key=c7390581f1e84a388be14b8cdf507a8f&hl="+locale+"&r="+speed+"&f=44khz_16bit_stereo&ssml=false&src="+encodeURI(words[wordIndex])+" autoplay='autoplay'></audio>")
 			}
 
 			var progress = function() {
 				setTimeout(function() { 
 					$('#card').css('color', "#333333")
 					$('#counter').css('color', "#333333")
-					$('#spinner').html('')
+					$('#counter').removeClass('blink_text')
 					$('#card').bind('click', reveal)
 					nextWord();
 				}, progressWaitInMillis);
@@ -118,9 +150,9 @@
 				$('#card').unbind('click', reveal);
 				sayWord();	
 								
-				$('#card').css('color', "#ff6633")
-				$('#counter').css('color', "#ff6633")
-				$('#spinner').html('<img src="spinner2.gif"/>');
+				$('#card').css('color', style["active-color"])
+				$('#counter').css('color', style["active-color"])
+				$('#counter').addClass('blink_text')
 				progress()
 			}
 	

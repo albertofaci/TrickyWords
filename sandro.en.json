@@ -1,4 +1,10 @@
 { 
+	"locale" : "en-GB",
+	"speed": "-2",
+	"style" : {
+		"background-color" : "#ffdddd",
+		"active-color" : "#ff6633"
+	},
 	"words" : { 
 		"current" : [
 			"behind", 

@@ -1,0 +1,25 @@
+{ 
+	"locale" : "es-ES",
+	"speed": "-4",
+	"style" : {
+		"background-color" : "#ffdddd",
+		"active-color" : "#ff6633"
+	},
+	"words" : { 
+		"current" : [
+			"infección", 
+			"gallina",
+ 			"importante",
+ 			"he venido",
+			"enfermera",
+			"pitón"
+		],
+		"historic" : [
+	       "bueno",
+	       "patata",
+	       "ladrón",
+	       "basura",
+	       "reírse"
+		]
+	}
+}
