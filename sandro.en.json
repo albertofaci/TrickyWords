@@ -2,8 +2,8 @@
 	"locale" : "en-GB",
 	"speed": "-2",
 	"style" : {
-		"background-color" : "#ffdddd",
-		"active-color" : "#ff6633"
+		"background-color" : "#ddddff",
+		"active-color" : "#3366ff"
 	},
 	"words" : { 
 		"current" : [
