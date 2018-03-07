@@ -5,6 +5,10 @@
 		"background-color" : "#ffdddd",
 		"active-color" : "#ff6633"
 	},
+	"copy" : {
+		"start" : "Comenzar",
+		"end" : "¡Bien hecho!"
+	},
 	"words" : { 
 		"current" : [
 			"infección", 

@@ -5,6 +5,10 @@
 		"background-color" : "#eeeeff",
 		"active-color" : "#3366ff"
 	},
+	"copy" : {
+		"start" : "Start",
+		"end" : "¡Well done!"
+	},
 	"words" : { 
 		"current" : [
 			"behind", 
