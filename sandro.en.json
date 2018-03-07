@@ -2,7 +2,7 @@
 	"locale" : "en-GB",
 	"speed": "-2",
 	"style" : {
-		"background-color" : "#eeeeeff",
+		"background-color" : "#eeeeff",
 		"active-color" : "#3366ff"
 	},
 	"words" : { 
