@@ -6,7 +6,8 @@
 		"active-color" : "#ff6633"
 	},
 	"copy" : {
-		"start" : "Comenzar",
+		"title": "Palabras rápidas",
+		"start" : "[comenzar]",
 		"end" : "¡Bien hecho!"
 	},
 	"words" : { 

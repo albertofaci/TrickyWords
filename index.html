@@ -31,107 +31,24 @@
 		    src: url("Brandon_med.otf") format("opentype");
 		}
 
-        body { background-color: #ffdddd; color: #333333; font-family: "BrandonGrot", 'Trebuchet MS', cursive; text-rendering:optimizeLegibility; }
+        body {  background-color: #ffdddd; color: #333333; font-family: "BrandonGrot", 'Trebuchet MS', cursive; text-rendering:optimizeLegibility; }
         #controls { width: 900px; margin: 0px auto; height: 40px; }
-        #card_container { font-size:100pt; text-align: center; padding: 150px 0px; }
-        #start { font-size:100pt; text-align: center; padding: 150px 0px; }
-        #end { font-size:100pt; text-align: center; padding: 150px 0px; }
-        #counter_container {  width: 30px;  font-size: 50pt; color: #333; }
-        #counter { float: left;}
-        
-        .blink_text { animation:1s blinker linear infinite; -webkit-animation:1s blinker linear infinite; -moz-animation:1s blinker linear infinite;
-    	}
-
-	    @-moz-keyframes blinker {  0% { opacity: 1.0; } 50% { opacity: 0.0; } 100% { opacity: 1.0; }}
-	    @-webkit-keyframes blinker {  0% { opacity: 1.0; }  50% { opacity: 0.0; } 100% { opacity: 1.0; }}
-	    @keyframes blinker {  0% { opacity: 1.0; }50% { opacity: 0.0; }100% { opacity: 1.0; }}
+        #menu { font-size:40pt; text-align: center;  }
+        #menu ul {list-style-type: none; line-height: 70pt }
+        #menu a, a:hover, a:visited { color: #333333; text-decoration: none;}
         
 	</style>
-	<script language="Javascript">
-
-
-	$( document ).ready(function() {
-			var urlParams = extractUrlParams()
-			var wordList = [];
-			var metadata;
-			var progressWaitInMillis = 3000;
-			var lang = urlParams["lang"] || "en"
-			var wordIndex = 0;
-			var words;
-
-			$.getJSON("sandro."+lang+".json", function(data, err) {
-					metadata = data;
-					wordList = collectWords(metadata);
-					displayStartScreen(metadata, start);
-			});
-
-		
-
-
-			function collectWords(data) {
-				var list = [];
-				var list = list.concat(data.words.current)
-				var rand  = pickRandom(5, data.words.historic)
-				list = list.concat(rand)
-				return list;
-			}
-			
-			function nextWord() {
-				wordIndex++
-				var currentCounter = ''+(words.length - wordIndex)
-				$('#counter').text(currentCounter);
-				if ( wordIndex >= words.length ) {
-					displayEndScreen(metadata);
-					return;					
-				}
-				$('#card').text(words[wordIndex]);
-				
-			}
-
-			function sayWord() {
-				sayWordWithParams(words[wordIndex], metadata.locale, metadata.speed);
-			}
-
-			function progressToNextWord() {
-				setTimeout(function() { 
-					$('#card').css('color', "#333333")
-					$('#counter').css('color', "#333333")
-					$('#counter').removeClass('blink_text')
-					$('#card').bind('click', reveal)
-					nextWord();
-				}, progressWaitInMillis);
-			}
-
-			var reveal = function( evt ) {
-				$('#card').unbind('click', reveal);
-				sayWord();	
-								
-				$('#card').css('color', metadata.style["active-color"])
-				$('#counter').css('color', metadata.style["active-color"])
-				$('#counter').addClass('blink_text')
-				progressToNextWord();
-			}
-
-			function start() {
-				$('#card_container').html('<span id="card"></span>');
-				$('#card').bind('click', reveal)
-			
-				words = scrambleWords(wordList)
-				wordIndex = -1;
-				nextWord();
-			}
-	
-		});
-		
-	</script>
 </head>
 <body>
 <div id="main-nav">	
-<div id="controls">
-	<span id="counter_container">
-		<span id="counter"></span>
-		<span id="spinner"></span>
-	</span>
+<div id="menu">
+	<h1>Sandro Palabras</h1>
+	<ul>
+		<li><a href="trickywords.html?lang=es">Palabras Complicadas - Español</a></li>
+		<li><a href="trickywords.html?lang=es">Tricky Words - English</a></li>
+		<li><a href="speedwords.html?lang=es&level=1">Palabras Rápidas - Nivel 1</a></li>
+		<li><a href="speedwords.html?lang=es&level=2">Palabras Rápidas - Nivel 2</a></li>
+	</ul>
 
 </div>
 <div id="card_container">

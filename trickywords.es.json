@@ -1,4 +1,5 @@
 { 
+	
 	"locale" : "es-ES",
 	"speed": "-4",
 	"style" : {
@@ -6,7 +7,8 @@
 		"active-color" : "#ff6633"
 	},
 	"copy" : {
-		"start" : "Comenzar",
+		"title" : "Palabras Complicadas",	
+		"start" : "[comenzar]",
 		"end" : "¡Bien hecho!"
 	},
 	"words" : { 

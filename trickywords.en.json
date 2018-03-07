@@ -6,7 +6,8 @@
 		"active-color" : "#3366ff"
 	},
 	"copy" : {
-		"start" : "Start",
+		"title": "Tricky Words",
+		"start" : "[start]",
 		"end" : "Well done!"
 	},
 	"words" : { 

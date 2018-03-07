@@ -12,14 +12,23 @@ function extractUrlParams() {
    return urlParams;
 }
 
+function preventScrollAndBounce(){
+	$(document).bind('touchmove', function(e) {
+     e.preventDefault();
+    });
+}
+
 function displayEndScreen(metadata) {
 	$('#card_container').html('<span id="end">'+metadata.copy.end+'</span>');
+	$('#end').click(function() {
+		location.href = 'index.html'
+	})
 }
 
 function displayStartScreen(metadata, onClickCallback) {
 	$("#start").click(onClickCallback)
 	$('body').css('background-color', metadata.style["background-color"])
-	$('#start').html(metadata.copy.start)
+	$('#start').html("<span>"+metadata.copy.title+"<br/>"+metadata.copy.start+"</span>")
 }
 
 function each(a,f) { for (var i=0,l=a.length;i<l;i++) f(a[i]); }
