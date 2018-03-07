@@ -59,7 +59,7 @@
 			var wordIndex = 0;
 			var words;
 
-			$.getJSON("syllables."+lang+".json", function(data, err) {
+			$.getJSON("speedwords."+lang+".json", function(data, err) {
 					metadata = data;
 					wordList = collectWords(metadata);
 					displayStartScreen(metadata, start);
