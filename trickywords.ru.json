@@ -1,7 +1,7 @@
 { 
 	
 	"locale" : "ru-RU",
-	"speed": "-4",
+	"speed": "-3",
 	"style" : {
 		"background-color" : "#ffffdd",
 		"active-color" : "#ffcc00"
